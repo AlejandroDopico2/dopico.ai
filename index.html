@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>dopico.ai — Research Links</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+      color: #1e293b;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .card {
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    a.card-link {
+      transition: all 0.2s ease;
+    }
+
+    a.card-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(99, 102, 241, 0.15);
+      border-color: #6366f1;
+    }
+
+    /* Simple dark mode */
+    @media (prefers-color-scheme: dark) {
+      body {
+        background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+        color: #f1f5f9;
+      }
+      .card {
+        background-color: #1e293b;
+        border-color: #334155;
+      }
+      a.card-link {
+        background-color: #1e293b;
+      }
+      a.card-link:hover {
+        background-color: #334155;
+      }
+      footer {
+        color: #94a3b8;
+      }
+    }
+  </style>
+
+  <script>
+    let redirectData = [];
+    const LINKS_FILE = "links.json";
+    const APP_NAME = "dopico.ai";
+
+    function checkAndRedirect() {
+      const pathMap = redirectData.reduce((map, item) => {
+        map[item.path.toLowerCase()] = item.url;
+        return map;
+      }, {});
+
+      const pathname = window.location.pathname.toLowerCase().replace(/\/$/, '');
+      const pathKey = pathname.startsWith('/') ? pathname.substring(1) : pathname;
+
+      if (pathMap[pathKey]) {
+        console.log(`Redirecting from /${pathKey} to ${pathMap[pathKey]}`);
+        window.location.replace(pathMap[pathKey]);
+        return true;
+      }
+      return false;
+    }
+
+    function buildLandingPage() {
+      const container = document.getElementById('links-container');
+      container.innerHTML = '';
+
+      if (redirectData.length === 0) {
+        container.innerHTML = `<p class="text-gray-500">No redirect links have been configured yet in ${LINKS_FILE}.</p>`;
+        return;
+      }
+
+      redirectData.forEach(link => {
+        const item = document.createElement('a');
+        item.href = link.url;
+        item.target = '_blank';
+        item.rel = 'noopener noreferrer';
+        item.className =
+          'card-link flex flex-col md:flex-row justify-between items-start md:items-center p-4 bg-white border border-gray-200 rounded-xl hover:border-indigo-500';
+
+        const pathGroup = document.createElement('div');
+        const pathElement = document.createElement('div');
+        pathElement.className = 'text-lg font-semibold text-indigo-700 dark:text-indigo-400';
+        pathElement.textContent = `${APP_NAME}/${link.path}`;
+
+        const descElement = document.createElement('p');
+        descElement.className = 'text-sm text-gray-500 dark:text-gray-400 mt-0.5';
+        descElement.textContent = link.description || 'No description provided.';
+
+        pathGroup.appendChild(pathElement);
+        pathGroup.appendChild(descElement);
+
+        const linkElement = document.createElement('span');
+        linkElement.className = 'text-sm text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400 md:text-right break-all max-w-full md:max-w-xs';
+        const displayUrl = link.url.length > 60 ? link.url.substring(0, 57) + '...' : link.url;
+        linkElement.textContent = displayUrl;
+        linkElement.title = link.url;
+
+        item.appendChild(pathGroup);
+        item.appendChild(linkElement);
+        container.appendChild(item);
+      });
+    }
+
+    async function loadLinksAndInitialize() {
+      const appContainer = document.getElementById('app-container');
+      const linksContainer = document.getElementById('links-container');
+
+      try {
+        const response = await fetch(LINKS_FILE);
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        redirectData = await response.json();
+      } catch (error) {
+        console.error("Failed to load links data:", error);
+        linksContainer.innerHTML = `<p class="text-red-500 font-semibold">Error: Could not load the links configuration (${LINKS_FILE}). Please ensure the file exists and is correctly formatted JSON.</p>`;
+        appContainer.classList.remove('hidden');
+        return;
+      }
+
+      if (!checkAndRedirect()) {
+        appContainer.classList.remove('hidden');
+        buildLandingPage();
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadLinksAndInitialize);
+  </script>
+</head>
+
+<body class="min-h-screen flex items-center justify-center p-4">
+  <div id="app-container" class="w-full max-w-2xl hidden">
+    <header class="text-center mb-10">
+      <h1 class="text-5xl font-extrabold text-gray-800 dark:text-gray-100 tracking-tight">
+        Alejandro Dopico-Castro
+      </h1>
+      <p class="text-xl text-indigo-600 dark:text-indigo-400 mt-2">
+        Centralized Research Link Hub
+      </p>
+      <p class="text-gray-500 dark:text-gray-400 mt-4 max-w-md mx-auto leading-relaxed">
+        Use the short links below for my research and publications. Each entry redirects to the current, canonical URL.
+      </p>
+    </header>
+
+    <section id="links-container" class="space-y-4 card p-6 bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-700">
+      <div class="flex justify-center items-center py-8">
+        <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <span class="text-gray-500 dark:text-gray-400">Loading research links...</span>
+      </div>
+    </section>
+
+    <footer class="text-center text-sm text-gray-400 dark:text-gray-500 mt-8">
+      &copy; 2025 Alejandro Dopico-Castro — Hosted on GitHub Pages.
+    </footer>
+  </div>
+</body>
+</html>

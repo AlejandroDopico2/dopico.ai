@@ -1,0 +1,27 @@
+[
+    {
+        "path": "LinkedIn",
+        "url": "https://www.linkedin.com/in/alejandrodopicocastro/",
+        "description": "My professional LinkedIn profile."
+    },
+    {
+        "path": "GScholar",
+        "url": "https://scholar.google.com/citations?user=zFZ6LycAAAAJ&hl=es",
+        "description": "My Google Scholar profile."
+    },
+    {
+        "path": "Portfolio",
+        "url": "https://alejandrodopico2.github.io/",
+        "description": "My Personal WebPage."
+    },
+    {
+        "path": "CIFNet",
+        "url": "https://github.com/AlejandroDopico2/CIFNet",
+        "description": "GitHub repository for the Class Incremental and Frugal Network project."
+    },
+    {
+        "path": "FedHENet",
+        "url": "https://github.com/AlejandroDopico2/FedHENet",
+        "description": "GitHub repository for the FedHENet project."
+    }
+]
