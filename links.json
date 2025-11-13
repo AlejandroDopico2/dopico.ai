@@ -5,6 +5,11 @@
         "description": "My professional LinkedIn profile."
     },
     {
+        "path": "GitHub",
+        "url": "https://github.com/AlejandroDopico2/",
+        "description": "My GitHub profile."
+    },
+    {
         "path": "GScholar",
         "url": "https://scholar.google.com/citations?user=zFZ6LycAAAAJ&hl=es",
         "description": "My Google Scholar profile."
