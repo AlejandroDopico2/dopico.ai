@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Redirecting...</title>
+  <script>
+    const LINKS_FILE = "links.json";
+
+    async function handleRedirect() {
+      try {
+        const response = await fetch(LINKS_FILE);
+        if (!response.ok) throw new Error(`Cannot load ${LINKS_FILE}`);
+        const data = await response.json();
+
+        // Build lookup map
+        const map = data.reduce((acc, item) => {
+          acc[item.path.toLowerCase()] = item.url;
+          return acc;
+        }, {});
+
+        // Extract path (e.g. "/CIFNet" → "cifnet")
+        const path = window.location.pathname
+          .replace(/\/+$/, "")
+          .split("/")
+          .pop()
+          .toLowerCase();
+
+        const target = map[path];
+        if (target) {
+          window.location.replace(target);
+        } else {
+          document.body.innerHTML = `
+            <main style="font-family: sans-serif; text-align:center; padding:2rem;">
+              <h1 style="font-size:1.5rem;">Link not found</h1>
+              <p style="color:#6b7280;">No redirect found for <code>${path}</code>.</p>
+              <a href="./" style="color:#6366f1; text-decoration:none;">Return to main page</a>
+            </main>`;
+        }
+      } catch (err) {
+        console.error(err);
+        document.body.innerHTML = `
+          <main style="font-family: sans-serif; text-align:center; padding:2rem;">
+            <h1 style="font-size:1.5rem;">Error</h1>
+            <p style="color:#ef4444;">Could not load redirects.</p>
+            <a href="./" style="color:#6366f1; text-decoration:none;">Return to main page</a>
+          </main>`;
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", handleRedirect);
+  </script>
+</head>
+<body style="margin:0;">
+  <main style="font-family: sans-serif; text-align:center; padding:2rem;">
+    <p style="color:#6b7280;">Redirecting…</p>
+  </main>
+</body>
+</html>
