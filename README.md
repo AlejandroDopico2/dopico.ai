@@ -1,6 +1,6 @@
 # dopico.ai — Research Link Hub
 
-This repository hosts the **centralized short-link system** for [dopico.ai](https://dopico.ai.github.io).  
+This repository hosts the **centralized short-link system** for [dopico.ai](https://alejandrodopico2.github.io/dopico.ai/).  
 It provides simple, persistent paths (e.g. `dopico.ai/cifnet`) that automatically **redirect to the latest full URLs** for my research projects, papers, benchmarks, and other academic resources.
 
 ---
@@ -24,5 +24,4 @@ Simply push updates to `links.json` to add or update redirects instantly.
 
 ---
 
-**© 2025 Alejandro Dopico-Castro**  
-[https://dopico.ai.github.io](https://dopico.ai.github.io)
+**© 2025 Alejandro Dopico-Castro**  [dopico.ai](https://alejandrodopico2.github.io/dopico.ai/)
