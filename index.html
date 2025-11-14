@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>dopico.ai — Research Links</title>
+  <title>Dopico-Castro Research Links</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,28 +27,37 @@
 
     a.card-link:hover {
       transform: translateY(-2px);
-      box-shadow: 0 10px 25px rgba(99, 102, 241, 0.15);
-      border-color: #6366f1;
+      box-shadow: 0 10px 25px rgba(181, 9, 172, 0.15);
+      border-color: #B509AC;
     }
 
-    /* Simple dark mode */
+    .custom-color {
+      color: #B509AC; /* tu color para modo claro */
+    }
+
     @media (prefers-color-scheme: dark) {
       body {
-        background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+        background: linear-gradient(180deg, #1C1C1D 0%, #29292a 100%);
         color: #f1f5f9;
       }
       .card {
-        background-color: #1e293b;
-        border-color: #334155;
+        background-color: #0f0f10;
+        border-color: #424244;
       }
       a.card-link {
-        background-color: #1e293b;
+        background-color: #29292a;
+        border-color: #424244;
+        border-width: 2px;
       }
       a.card-link:hover {
-        background-color: #334155;
+        box-shadow: 0 10px 25px rgba(55, 134, 184, 0.15);
+        border-color: #3786B8;
       }
       footer {
         color: #94a3b8;
+      }
+      .custom-color {
+        color: #3786B8; /* tu color para modo oscuro */
       }
     }
   </style>
@@ -94,8 +103,8 @@
 
         const pathGroup = document.createElement('div');
         const pathElement = document.createElement('div');
-        pathElement.className = 'text-lg font-semibold text-indigo-700 dark:text-indigo-400';
-        pathElement.textContent = `${APP_NAME}/${link.path}`;
+        pathElement.className = 'text-lg font-semibold custom-color';
+        pathElement.textContent = `${link.path}`;
 
         const descElement = document.createElement('p');
         descElement.className = 'text-sm text-gray-500 dark:text-gray-400 mt-0.5';
@@ -104,14 +113,7 @@
         pathGroup.appendChild(pathElement);
         pathGroup.appendChild(descElement);
 
-        const linkElement = document.createElement('span');
-        linkElement.className = 'text-sm text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400 md:text-right break-all max-w-full md:max-w-xs';
-        const displayUrl = link.url.length > 60 ? link.url.substring(0, 57) + '...' : link.url;
-        linkElement.textContent = displayUrl;
-        linkElement.title = link.url;
-
         item.appendChild(pathGroup);
-        item.appendChild(linkElement);
         container.appendChild(item);
       });
     }
@@ -144,10 +146,10 @@
 <body class="min-h-screen flex items-center justify-center p-4">
   <div id="app-container" class="w-full max-w-2xl hidden">
     <header class="text-center mb-10">
-      <h1 class="text-5xl font-extrabold text-gray-800 dark:text-gray-100 tracking-tight">
-        Alejandro Dopico-Castro
+      <h1 class="text-5xl font-bold text-gray-800 dark:text-gray-100 tracking-tight">
+        Alejandro <span class="font-thin">Dopico-Castro</span>
       </h1>
-      <p class="text-xl text-indigo-600 dark:text-indigo-400 mt-2">
+      <p class="text-xl mt-2 custom-color">
         Centralized Research Link Hub
       </p>
       <p class="text-gray-500 dark:text-gray-400 mt-4 max-w-md mx-auto leading-relaxed">
@@ -155,7 +157,7 @@
       </p>
     </header>
 
-    <section id="links-container" class="space-y-4 card p-6 bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-700">
+    <section id="links-container" class="space-y-4 card p-6 bg-white dark:bg-zinc-800 rounded-2xl border border-gray-200 dark:border-gray-600">
       <div class="flex justify-center items-center py-8">
         <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
